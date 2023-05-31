@@ -5,17 +5,28 @@
     android:layout_width="match_parent"
     android:layout_height="match_parent"
     android:orientation="vertical"
+    android:background="#f6f5f0"
+
     tools:context=".secondpg">
+    <TextView
+        android:layout_width="match_parent"
+        android:layout_height="320dp"
+        />
 
     <TextView
         android:id="@+id/textView4"
         android:layout_width="match_parent"
         android:layout_height="45dp"
+
+
         android:padding="5dp"
-        android:layout_marginTop="350dp"
+
         android:text="Let's get started!"
+
         android:textSize="24sp"
-        android:textStyle="italic" />
+        android:textStyle="italic"
+        android:layout_marginStart="8dp"
+        android:layout_marginEnd="8dp"/>
 
     <TextView
         android:id="@+id/textView5"
@@ -23,18 +34,24 @@
         android:layout_height="97dp"
         android:text="Could you tell me your name?"
         android:padding="5dp"
+
         android:textColor="#070707"
         android:textSize="34sp"
-        android:textStyle="bold" />
+        android:textStyle="bold"
+        android:layout_marginStart="8dp"
+        android:layout_marginEnd="8dp"/>
 
     <TextView
         android:id="@+id/textView6"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:padding="5dp"
+
         android:layout_marginBottom="15dp"
-        android:text="Ensure correct name is being provided.You won't be able to change it later!"
-        android:textSize="20sp" />
+        android:text="Ensure correct name is being provided. You won't be able to change it later!"
+        android:textSize="20sp"
+        android:layout_marginStart="8dp"
+        android:layout_marginEnd="8dp"/>
 
     <LinearLayout
         android:layout_width="match_parent"
@@ -43,13 +60,19 @@
 
         <EditText
             android:id="@+id/nameText"
-            android:layout_width="310dp"
+            android:layout_width="0dp"
+            android:layout_weight="1"
             android:layout_height="50dp"
-            android:layout_marginBottom="15dp"
-            android:ems="10"
+            android:layout_marginBottom ="15dp"
+
+            android:ems="8"
+            android:background="@color/white"
+
             android:hint="Full Name"
             android:inputType="text"
-            android:padding="5dp" />
+            android:padding="5dp"
+            android:layout_marginStart="8dp"
+            android:layout_marginEnd="8dp"/>
 
         <ImageButton
             android:id="@+id/voiceBtn1"
@@ -57,16 +80,30 @@
             android:layout_height="50dp"
             android:contentDescription="mic1"
             android:visibility="visible"
+
+            android:background="#f6f5f0"
+            android:elevation="8dp"
+            android:layout_marginStart="8dp"
+            android:layout_marginEnd="8dp"
+
+
+
             app:srcCompat="@drawable/ic_action_name" />
 
     </LinearLayout>
 
     <Button
         android:id="@+id/button2"
-        android:layout_marginTop="5dp"
+
+
+
         android:layout_width="match_parent"
+        android:layout_margin="16dp"
         android:layout_height="wrap_content"
-        android:backgroundTint="#0C7C8A"
+
+
+
+        android:backgroundTint="#069e9f"
         android:padding="10dp"
         android:text="Next" />
 

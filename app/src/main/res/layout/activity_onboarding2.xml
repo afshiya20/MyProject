@@ -1,0 +1,40 @@
+<?xml version="1.0" encoding="utf-8"?>
+<androidx.constraintlayout.widget.ConstraintLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:background="#f8d2a1"
+    tools:context=".onboarding_2">
+
+    <Button
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintBottom_toBottomOf="parent"
+        android:layout_margin="32dp"
+        android:id="@+id/next_btn"
+        android:layout_width="wrap_content"
+        android:layout_height="40dp"
+        android:text="next"
+        android:backgroundTint="@color/white"
+        android:textColor="@color/black"
+        />
+    <ImageView
+            android:layout_width="match_parent"
+        android:layout_height="550dp"
+        app:layout_constraintBottom_toTopOf="@id/next_btn"
+        android:src="@drawable/onboarding_2"
+
+        />
+    <Button
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintBottom_toBottomOf="parent"
+        android:layout_margin="32dp"
+        android:id="@+id/skip_btn"
+        android:layout_width="wrap_content"
+        android:layout_height="40dp"
+        android:text="skip"
+        android:backgroundTint="#f8d2a1"
+        android:textColor="@color/black"
+        />
+
+</androidx.constraintlayout.widget.ConstraintLayout>

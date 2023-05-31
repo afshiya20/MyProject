@@ -1,0 +1,124 @@
+<?xml version="1.0" encoding="utf-8"?>
+<androidx.constraintlayout.widget.ConstraintLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    tools:context=".fourth_pg"
+    android:background="@color/bg"
+
+    >
+
+    <TextView
+        android:id="@+id/text3"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_margin="8dp"
+        android:padding="5dp"
+        android:text="Great!"
+        android:textStyle="italic"
+        app:layout_constraintBottom_toTopOf="@id/text1"
+
+        android:textColor="#0E0E0E"
+        android:textSize="16sp" />
+
+    <TextView
+        android:id="@+id/text1"
+        app:layout_constraintBottom_toTopOf="@id/text2"
+
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:foregroundTint="#121111"
+        android:padding="5dp"
+        android:text="What's your employment type? 👔"
+        android:textColor="#121111"
+        android:textSize="28sp"
+        android:textStyle="bold"
+        android:layout_margin="8dp"
+        />
+
+    <TextView
+        android:id="@+id/text2"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_margin="8dp"
+        android:padding="5dp"
+        android:text="How are you utilizing your time?"
+        app:layout_constraintBottom_toTopOf="@id/salaried"
+
+        android:textColor="#0E0E0E"
+        android:textSize="16sp" />
+
+    <Button
+        android:id="@+id/salaried"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_margin="8dp"
+        android:padding="5dp"
+        android:text="Salaried"
+        android:textStyle="bold"
+        android:backgroundTint="@color/white"
+        android:elevation="32dp"
+        app:layout_constraintBottom_toTopOf="@id/student"
+        app:layout_constraintEnd_toStartOf="@id/self"
+
+        android:textColor="@color/black"
+        android:textSize="16sp" />
+
+    <Button
+        android:id="@+id/self"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_margin="8dp"
+        android:padding="5dp"
+        android:text="Self-employed"
+        android:textStyle="bold"
+        android:backgroundTint="@color/white"
+        android:elevation="32dp"
+        app:layout_constraintBottom_toTopOf="@id/other"
+        app:layout_constraintEnd_toEndOf="parent"
+
+        android:textColor="@color/black"
+        android:textSize="16sp" />
+
+    <Button
+        android:id="@+id/student"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_margin="8dp"
+        android:padding="5dp"
+        android:text="Student"
+        android:textStyle="bold"
+        android:backgroundTint="@color/white"
+        android:elevation="32dp"
+        app:layout_constraintBottom_toTopOf="@id/bottom"
+        app:layout_constraintEnd_toStartOf="@id/other"
+
+        android:textColor="@color/black"
+        android:textSize="16sp" />
+
+    <Button
+        android:id="@+id/other"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_margin="8dp"
+        android:padding="5dp"
+        android:text="other"
+        android:textStyle="bold"
+        android:backgroundTint="@color/white"
+        android:elevation="32dp"
+        app:layout_constraintBottom_toTopOf="@id/bottom"
+        app:layout_constraintEnd_toEndOf="parent"
+
+        android:textColor="@color/black"
+        android:textSize="16sp" />
+
+    <TextView
+        android:id="@+id/bottom"
+        app:layout_constraintBottom_toBottomOf="parent"
+        android:layout_width="match_parent"
+        android:layout_height="32dp"
+
+        />
+
+</androidx.constraintlayout.widget.ConstraintLayout>

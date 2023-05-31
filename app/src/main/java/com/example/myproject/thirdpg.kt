@@ -25,6 +25,10 @@ class thirdpg : AppCompatActivity() {
         super.onCreate(savedInstanceState)
         binding = Layout3Binding.inflate(LayoutInflater.from(this))
         setContentView(binding.root)
+        binding.button3.setOnClickListener{
+            val intent3 = Intent(this, fourth_pg::class.java)
+            startActivity(intent3)
+        }
         val button = findViewById<Button>(R.id.dateBtn)
         val text=findViewById<TextView>(R.id.dateText)
         val cal = Calendar.getInstance()
@@ -63,4 +67,6 @@ class thirdpg : AppCompatActivity() {
             }
         }
     }
+
+
 }

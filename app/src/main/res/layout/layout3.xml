@@ -5,34 +5,48 @@
     android:layout_height="match_parent"
     android:orientation="vertical"
     xmlns:tools="http://schemas.android.com/tools"
+    android:background="#f6f5f0"
     tools:context=".thirdpg">
+
+    <TextView
+        android:layout_width="match_parent"
+        android:layout_height="320dp"
+        />
 
     <TextView
         android:id="@+id/textView7"
         android:layout_width="match_parent"
         android:layout_height="54dp"
-        android:layout_marginTop="350dp"
+
         android:text="Nice to meet you!"
         android:textSize="24sp"
+        android:padding="8dp"
+        android:layout_marginStart="8dp"
         android:textStyle="italic" />
 
     <TextView
         android:id="@+id/textView8"
-        android:layout_width="match_parent"
-        android:layout_height="80dp"
-        android:text="What's your date of birth?"
-        android:layout_marginBottom="10dp"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:text="What's your date of birth? 🎂"
+        android:padding="8dp"
+
         android:textColor="#100F0F"
         android:textSize="34sp"
-        android:textStyle="bold" />
+        android:textStyle="bold"
+        android:layout_marginStart="8dp"/>
 
     <EditText
         android:id="@+id/dateText"
         android:layout_width="match_parent"
-        android:layout_height="69dp"
-        android:ems="10"
+        android:layout_height="50dp"
+
+        android:padding="8dp"
         android:hint="Select Date"
-        android:inputType="date" />
+        android:layout_margin="8dp"
+        android:background="@color/white"
+        android:inputType="date"
+        android:layout_marginStart="8dp"/>
     <LinearLayout
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
@@ -43,16 +57,24 @@
             android:layout_width="125dp"
             android:layout_height="50dp"
             android:layout_gravity="center"
-            android:layout_marginBottom="10dp"
-            android:backgroundTint="#0C7C8A"
+
+            android:backgroundTint="#069e9f"
+            android:ems="10"
+            android:layout_margin="8dp"
+
+
             android:text="Pick Date" />
-    <ImageButton
-        android:id="@+id/voiceBtn2"
-        android:layout_width="50dp"
-        android:layout_height="50dp"
-        android:contentDescription="mic2"
-        android:visibility="visible"
-        app:srcCompat="@drawable/ic_action_name" />
+
+        <ImageButton
+            android:id="@+id/voiceBtn2"
+            android:layout_width="50dp"
+            android:layout_height="50dp"
+            android:contentDescription="mic2"
+            android:visibility="visible"
+            app:srcCompat="@drawable/ic_action_name"
+            android:layout_margin="8dp"
+            android:background="#f6f5f0"
+            android:elevation="8dp"/>
 
     </LinearLayout>
 
@@ -60,7 +82,10 @@
         android:id="@+id/button3"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:backgroundTint="#0C7C8A"
+        android:backgroundTint="#069e9f"
+        android:layout_marginStart="16dp"
+        android:layout_marginEnd="16dp"
+        android:layout_marginTop="8dp"
         android:text="Next" />
 
 </LinearLayout>

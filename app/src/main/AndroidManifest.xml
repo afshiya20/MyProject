@@ -15,17 +15,35 @@
         android:supportsRtl="true"
         android:theme="@style/Theme.MyProject"
         tools:targetApi="31">
-
         <activity
-            android:name=".thirdpg"
-            android:exported="true"
-            android:parentActivityName=".secondpg"/>
+            android:name=".account_ready_pg"
+            android:exported="false" />
         <activity
-        android:name=".secondpg"
-        android:exported="true"
-        android:parentActivityName=".MainActivity"/>
+            android:name=".waiting_pg"
+            android:exported="false" />
         <activity
-            android:name=".MainActivity"
+            android:name=".fifth_pg"
+            android:exported="false" />
+        <activity
+            android:name=".fourth_pg"
+            android:exported="false" />
+        <activity
+            android:name=".fouthpg"
+            android:exported="false" />
+        <activity
+            android:name=".fourthpg"
+            android:exported="false" />
+        <activity
+            android:name=".onboarding_3"
+            android:exported="false" />
+        <activity
+            android:name=".onboarding_2"
+            android:exported="false" />
+        <activity
+            android:name=".onboarding_1"
+            android:exported="false" />
+        <activity
+            android:name=".splash"
             android:exported="true">
             <intent-filter>
                 <action android:name="android.intent.action.MAIN" />
@@ -33,6 +51,17 @@
                 <category android:name="android.intent.category.LAUNCHER" />
             </intent-filter>
         </activity>
+        <activity
+            android:name=".thirdpg"
+            android:exported="true"
+            android:parentActivityName=".secondpg" />
+        <activity
+            android:name=".secondpg"
+            android:exported="true"
+            android:parentActivityName=".MainActivity" />
+        <activity
+            android:name=".MainActivity"
+            android:exported="true" />
     </application>
 
 </manifest>
