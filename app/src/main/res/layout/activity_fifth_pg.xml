@@ -9,18 +9,36 @@
 
     >
 
-    <TextView
-        android:id="@+id/text3"
+    <LinearLayout
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:layout_margin="8dp"
-        android:padding="5dp"
-        android:text="You're almost there"
-        android:textStyle="italic"
+        android:orientation="horizontal"
+        android:gravity="center_vertical"
         app:layout_constraintBottom_toTopOf="@id/text1"
+        >
 
-        android:textColor="#0E0E0E"
-        android:textSize="16sp" />
+        <TextView
+            android:id="@+id/text3"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_margin="8dp"
+            android:padding="5dp"
+            android:text="You're almost there"
+            android:textStyle="italic"
+            android:textColor="#0E0E0E"
+            android:textSize="16sp" />
+
+        <Button
+            android:id="@+id/btnPlay"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="Play"
+            android:textSize="16sp"
+            android:layout_marginStart="8dp"
+            android:backgroundTint="@color/gray"
+            />
+    </LinearLayout>
+
 
     <TextView
         android:id="@+id/text1"
