@@ -1,47 +1,43 @@
 package com.example.myproject
 
 import android.content.Context
+import androidx.appcompat.app.AppCompatActivity
+import android.os.Bundle
+import com.example.myproject.databinding.ActivitySeventhPgRelationshipBinding
 import android.content.Intent
 import android.media.AudioManager
 import android.media.MediaPlayer
-import androidx.appcompat.app.AppCompatActivity
-import android.os.Bundle
 import android.speech.RecognizerIntent
 import android.view.LayoutInflater
 import android.widget.Button
 import android.widget.Toast
-import com.example.myproject.databinding.ActivityFourthPgBinding
-import com.example.myproject.databinding.Layout2Binding
+
+
 import com.google.firebase.database.DatabaseReference
 import com.google.firebase.database.FirebaseDatabase
 import java.io.IOException
 import java.util.Locale
 
-
-class fourth_pg : AppCompatActivity() {
-    private lateinit var binding:ActivityFourthPgBinding
+class Seventh_Pg_relationship : AppCompatActivity() {
 
 
+    private lateinit var binding:ActivitySeventhPgRelationshipBinding
     private lateinit var database : DatabaseReference
     private val REQUEST_CODE_SPEECH_INPUT = 1
-
-
     private lateinit var btnPlay : Button
-
     var mediaPlayer : MediaPlayer? = null
     var click=1
     private lateinit var result : String
+
+
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
-        binding =ActivityFourthPgBinding.inflate(LayoutInflater.from(this))
-        setContentView(binding.root)
-
+        setContentView(R.layout.activity_seventh_pg_relationship)
+        binding = ActivitySeventhPgRelationshipBinding.inflate(LayoutInflater.from(this))
 
         /*----------------------------Audio Play Button-------------------------------------------*/
 
         btnPlay = findViewById(R.id.btnPlay)
-
-
 
         btnPlay.setOnClickListener {
             if(click==1)
@@ -57,13 +53,10 @@ class fourth_pg : AppCompatActivity() {
                 btnPlay.setBackgroundColor(resources.getColor(R.color.gray))
             }
         }
+
         btnPlay.performClick()
 
-
-
-
         /*-------------------------------------------------------------------------------------*/
-
 
         binding.voiceBtn1.setOnClickListener{
             val intent= Intent(RecognizerIntent.ACTION_RECOGNIZE_SPEECH)
@@ -78,37 +71,31 @@ class fourth_pg : AppCompatActivity() {
             }
         }
 
-
-
-
-        binding.self.setOnClickListener{
-            val intent = Intent(this, fifth_pg::class.java)
+        binding.single.setOnClickListener{
+            val intent = Intent(this, Eighth_Pg_addr::class.java)
             startActivity(intent)
-            result = "self"
+            result = "single"
             updateDB(result)
         }
-        binding.other.setOnClickListener{
-            val intent = Intent(this, fifth_pg::class.java)
+        binding.married.setOnClickListener{
+            val intent = Intent(this, Eighth_Pg_addr::class.java)
             startActivity(intent)
-            result = "other"
+            result = "married"
             updateDB(result)
         }
-        binding.salaried.setOnClickListener{
-            val intent = Intent(this, fifth_pg::class.java)
+        binding.divorced.setOnClickListener{
+            val intent = Intent(this, Eighth_Pg_addr::class.java)
             startActivity(intent)
-            result = "salaried"
+            result = "divorced"
             updateDB(result)
         }
-        binding.student.setOnClickListener{
-            val intent = Intent(this, fifth_pg::class.java)
+        binding.widowd.setOnClickListener{
+            val intent = Intent(this, Eighth_Pg_addr::class.java)
             startActivity(intent)
-            result = "student"
+            result = "widowd"
             updateDB(result)
 
         }
-
-
-
 
     }
 
@@ -121,10 +108,9 @@ class fourth_pg : AppCompatActivity() {
 
         database = FirebaseDatabase.getInstance().getReference("Users/$firstname")
 
-
         if (firstname != null) {
-            val User = User( emp_type = result) // Update the dob value
-            database.child("emp_type").setValue(result).addOnSuccessListener {
+            val User = User( rel_status = result) // Update the dob value
+            database.child("rel_status").setValue(result).addOnSuccessListener {
                 Toast.makeText(this,"Successfully Saved data",Toast.LENGTH_SHORT).show()
             }
                 .addOnFailureListener {
@@ -132,41 +118,40 @@ class fourth_pg : AppCompatActivity() {
                 }
         }
     }
-/*-------------------------------Play Audio Function-------------------------------------*/
-private fun playAudio()
-{
-    val audioUrl = resources.openRawResourceFd(R.raw.employment_page)
+    /*-------------------------------Play Audio Function-------------------------------------*/
+    private fun playAudio()
+    {
+        val audioUrl = resources.openRawResourceFd(R.raw.rel_status)
 
-    mediaPlayer = MediaPlayer()
+        mediaPlayer = MediaPlayer()
 
-    mediaPlayer!!.setAudioStreamType(AudioManager.STREAM_MUSIC)
+        mediaPlayer!!.setAudioStreamType(AudioManager.STREAM_MUSIC)
 
-    try {
-        mediaPlayer!!.setDataSource(
-            audioUrl.fileDescriptor,
-            audioUrl.startOffset,
-            audioUrl.length
-        )
-        mediaPlayer!!.prepare()
-        mediaPlayer!!.start()
-        mediaPlayer!!.setOnCompletionListener {
+        try {
+            mediaPlayer!!.setDataSource(
+                audioUrl.fileDescriptor,
+                audioUrl.startOffset,
+                audioUrl.length
+            )
+            mediaPlayer!!.prepare()
+            mediaPlayer!!.start()
+            mediaPlayer!!.setOnCompletionListener {
 
-            binding.voiceBtn1.performClick()
+                binding.voiceBtn1.performClick()
+            }
+
+        }
+        catch (e: IOException)
+        {
+            e.printStackTrace()
+
         }
 
-
-    }
-    catch (e: IOException)
-    {
-        e.printStackTrace()
-
+        Toast.makeText(this,"Audio started Playing",Toast.LENGTH_SHORT).show()
     }
 
-    Toast.makeText(this,"Audio started Playing",Toast.LENGTH_SHORT).show()
-}
 
-
-/*---------------------------------------------------------------------------------------------*/
+    /*---------------------------------------------------------------------------------------------*/
 
     override fun onActivityResult(requestCode: Int, resultCode: Int, data: Intent?) {
         super.onActivityResult(requestCode, resultCode, data)
@@ -175,23 +160,23 @@ private fun playAudio()
                 val res : ArrayList<String> = data.getStringArrayListExtra(RecognizerIntent.EXTRA_RESULTS) as ArrayList<String>
 
                 res?.let {
-                     result = it[0]  // Get the first result from the ArrayList
+                    result = it[0]  // Get the first result from the ArrayList
                     // Check if the result contains specific words
-                    if (result.contains("self")) {
+                    if (result.contains("single")) {
                         // Perform actions when "self" is spoken
-                        binding.self.performClick()  // Trigger the click event of the button with id "btnSelf"
+                        binding.single.performClick()  // Trigger the click event of the button with id "btnSelf"
                     }
-                    if (result.contains("salaried")) {
+                    if (result.contains("married")) {
                         // Perform actions when "salaried" is spoken
-                        binding.salaried.performClick()  // Trigger the click event of the button with id "btnSalaried"
+                        binding.married.performClick()  // Trigger the click event of the button with id "btnSalaried"
                     }
-                    if (result.contains("student")) {
+                    if (result.contains("divorced")) {
                         // Perform actions when "student" is spoken
-                        binding.student.performClick()  // Trigger the click event of the button with id "btnStudent"
+                        binding.divorced.performClick()  // Trigger the click event of the button with id "btnStudent"
                     }
-                    if (result.contains("other")) {
+                    if (result.contains("widowd")) {
                         // Perform actions when "other" is spoken
-                        binding.other.performClick()  // Trigger the click event of the button with id "btnOther"
+                        binding.widowd.performClick()  // Trigger the click event of the button with id "btnOther"
                     }
 
                     // Store the spoken word in the "result" string variable
@@ -200,10 +185,8 @@ private fun playAudio()
 
                     Toast.makeText(this, "you selected the option "+result, Toast.LENGTH_SHORT).show()
                 }
-
             }
         }
     }
-
 
 }

@@ -15,6 +15,7 @@ import androidx.appcompat.app.AppCompatActivity
 import com.example.myproject.databinding.ActivityMainBinding
 import com.example.myproject.databinding.Layout2Binding
 import com.google.firebase.database.DatabaseReference
+import com.google.firebase.database.FirebaseDatabase
 import java.io.IOException
 
 import java.util.Locale
@@ -22,13 +23,11 @@ import java.util.Objects
 
 
 
-@Suppress("DEPRECATION")
+
 class secondpg : AppCompatActivity() {
     private lateinit var binding: Layout2Binding
     private lateinit var database : DatabaseReference
     private val REQUEST_CODE_SPEECH_INPUT = 1
-
-
     private lateinit var btnPlay : Button
 
     var mediaPlayer : MediaPlayer? = null
@@ -69,8 +68,29 @@ class secondpg : AppCompatActivity() {
 
     /*-------------------------------------------------------------------------------------*/
         binding.button2.setOnClickListener{
+            val firstname = binding.nameText.text.toString()
+            database = FirebaseDatabase.getInstance().getReference("Users")
+            val User = User(firstname = firstname)
+
+            database.child(firstname).setValue(User).addOnSuccessListener {
+                Toast.makeText(this,"Successfully Saved data",Toast.LENGTH_SHORT).show()
+            }
+                .addOnFailureListener {
+                    Toast.makeText(this,"Failed",Toast.LENGTH_SHORT).show()
+                }
+
+            /* Storing the value in shared Preferences */
+            val sharedPreferences = getSharedPreferences("MyPrefs", Context.MODE_PRIVATE)
+            val editor = sharedPreferences.edit()
+            editor.putString("firstname", firstname)
+            editor.apply()
+
+            /*----------------------------------------------------------------------*/
+
+
             val intent3 = Intent(this, thirdpg::class.java)
             startActivity(intent3)
+
         }
 
         binding.voiceBtn1.setOnClickListener{

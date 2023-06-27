@@ -18,6 +18,7 @@ class MainActivity : AppCompatActivity() {
         super.onCreate(savedInstanceState)
         binding= ActivityMainBinding.inflate(LayoutInflater.from(this))
         setContentView(binding.root)
+
         binding.button.setOnClickListener{
             val intent2 = Intent(this, secondpg::class.java)
             startActivity(intent2)
@@ -28,7 +29,6 @@ class MainActivity : AppCompatActivity() {
             saveVoiceJourney(true)
                 binding.button.performClick()
         }
-
 
     }
 

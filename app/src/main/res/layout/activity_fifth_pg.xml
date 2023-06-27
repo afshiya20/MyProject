@@ -35,7 +35,7 @@
             android:text="Play"
             android:textSize="16sp"
             android:layout_marginStart="8dp"
-            android:backgroundTint="@color/gray"
+            android:backgroundTint="@color/dark_green"
             />
     </LinearLayout>
 
@@ -94,25 +94,24 @@
             android:layout_height="wrap_content"
 
             android:text="▶"
-            android:backgroundTint="#9A9994"
+            app:tint="@color/dark_green"
             android:textColor="@color/white"
+
+            android:backgroundTint="@color/dark_green"
             />
-
-
-
 
 
     </LinearLayout>
 
 
-
-
-
-    <TextView
+    <Button
         android:id="@+id/bottom"
         app:layout_constraintBottom_toBottomOf="parent"
         android:layout_width="match_parent"
-        android:layout_height="32dp"
+        android:layout_height="wrap_content"
+        android:text="Complete Profile"
+        android:backgroundTint="#069e9f"
+        android:layout_marginBottom="10dp"
 
         />
 

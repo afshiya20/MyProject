@@ -16,6 +16,27 @@
         android:theme="@style/Theme.MyProject"
         tools:targetApi="31">
         <activity
+            android:name=".Eligible"
+            android:exported="false" />
+        <activity
+            android:name=".Eighth_Pg_addr"
+            android:exported="false" />
+        <activity
+            android:name=".Eighth_Pg_Work_Addr"
+            android:exported="false" />
+        <activity
+            android:name=".Seventh_Pg_Work_Addr"
+            android:exported="false" />
+        <activity
+            android:name=".Seventh_Pg_relationship"
+            android:exported="false" />
+        <activity
+            android:name=".Sixth_Pg_salary"
+            android:exported="false" />
+        <activity
+            android:name=".sixth_pg"
+            android:exported="false" />
+        <activity
             android:name=".account_ready_pg"
             android:exported="false" />
         <activity

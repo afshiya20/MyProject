@@ -1,5 +1,6 @@
 package com.example.myproject
 
+import android.content.Context
 import android.content.Intent
 import android.media.AudioManager
 import android.media.MediaPlayer
@@ -12,6 +13,7 @@ import android.widget.Toast
 import com.example.myproject.databinding.ActivityFifthPgBinding
 
 import com.google.firebase.database.DatabaseReference
+import com.google.firebase.database.FirebaseDatabase
 import java.io.IOException
 import java.util.Locale
 import java.util.Objects
@@ -25,6 +27,8 @@ class fifth_pg : AppCompatActivity() {
 
     private lateinit var btnPlay : Button
 
+    private lateinit var bottom : Button
+
     var mediaPlayer : MediaPlayer? = null
     var click=1
     private lateinit var binding: ActivityFifthPgBinding
@@ -36,6 +40,8 @@ class fifth_pg : AppCompatActivity() {
         /*----------------------------Audio Play Button-------------------------------------------*/
 
         btnPlay = findViewById(R.id.btnPlay)
+
+        bottom = findViewById(R.id.bottom)
 
 
         btnPlay.setOnClickListener {
@@ -52,6 +58,14 @@ class fifth_pg : AppCompatActivity() {
                 btnPlay.setBackgroundColor(resources.getColor(R.color.gray))
             }
         }
+
+        bottom.setOnClickListener {
+            val intent = Intent(this, account_ready_pg::class.java)
+            startActivity(intent)
+
+            updateDB(binding.pan.text.toString())
+        }
+
         btnPlay.performClick()
 
 
@@ -61,10 +75,7 @@ class fifth_pg : AppCompatActivity() {
 
 
 
-        binding.button.setOnClickListener{
-            val intent = Intent(this, waiting_pg::class.java)
-            startActivity(intent)
-        }
+
 
         /*---------------------Voice Button---------------------------------------------*/
         binding.button.setOnClickListener{
@@ -122,9 +133,49 @@ class fifth_pg : AppCompatActivity() {
             if (resultCode== RESULT_OK && data!=null){
                 val res : ArrayList<String> = data.getStringArrayListExtra(RecognizerIntent.EXTRA_RESULTS) as ArrayList<String>
                 binding.pan.setText(Objects.requireNonNull(res)[0])
+
             }
         }
     }
 
+    override fun onRestart() {
+        super.onRestart()
+    }
+
+    override fun onPause() {
+        super.onPause()
+    }
+
+    override fun onResume() {
+        super.onResume()
+    }
+
+    override fun onStop() {
+        super.onStop()
+    }
+
+    override fun onStart() {
+        super.onStart()
+    }
+
     /*---------------------------------------------------------------------------------------------*/
+
+    private fun updateDB(result : String)
+    {
+        val sharedPreferences = getSharedPreferences("MyPrefs", Context.MODE_PRIVATE)
+        val firstname = sharedPreferences.getString("firstname", "")
+
+        database = FirebaseDatabase.getInstance().getReference("Users/$firstname")
+
+
+        if (firstname != null) {
+
+            database.child("pan").setValue(result).addOnSuccessListener {
+                Toast.makeText(this,"Successfully Saved data",Toast.LENGTH_SHORT).show()
+            }
+                .addOnFailureListener {
+                    Toast.makeText(this,"Failed",Toast.LENGTH_SHORT).show()
+                }
+        }
+    }
 }

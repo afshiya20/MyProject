@@ -4,7 +4,7 @@
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    tools:context=".fourth_pg"
+    tools:context=".Seventh_Pg_relationship"
     android:background="@color/bg"
 
     >
@@ -23,7 +23,7 @@
             android:layout_height="wrap_content"
             android:layout_margin="8dp"
             android:padding="5dp"
-            android:text="Great!"
+            android:text="Excited to know more about you!"
             android:textColor="#0E0E0E"
             android:textSize="16sp"
             android:textStyle="italic" />
@@ -33,9 +33,11 @@
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:layout_marginStart="8dp"
-            android:backgroundTint="@color/dark_green"
+
             android:text="Play"
-            android:textSize="16sp" />
+            android:textSize="16sp"
+            android:backgroundTint="@color/dark_green"
+            />
 
     </LinearLayout>
 
@@ -48,7 +50,7 @@
         android:layout_height="wrap_content"
         android:foregroundTint="#121111"
         android:padding="5dp"
-        android:text="What's your employment type? 👔"
+        android:text="What's your relationship status? ❤"
         android:textColor="#121111"
         android:textSize="28sp"
         android:textStyle="bold"
@@ -61,68 +63,68 @@
         android:layout_height="wrap_content"
         android:layout_margin="8dp"
         android:padding="5dp"
-        android:text="How are you utilizing your time?"
+        android:text="Not us, the regulators want to  know your status"
         android:textColor="#0E0E0E"
 
         android:textSize="16sp"
-        app:layout_constraintBottom_toTopOf="@id/salaried"
+        app:layout_constraintBottom_toTopOf="@id/single"
         tools:layout_editor_absoluteX="8dp" />
 
     <Button
-        android:id="@+id/salaried"
+        android:id="@+id/single"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:layout_margin="8dp"
         android:padding="5dp"
-        android:text="Salaried"
+        android:text="Single"
         android:textStyle="bold"
         android:backgroundTint="@color/white"
         android:elevation="32dp"
-        app:layout_constraintBottom_toTopOf="@id/student"
-        app:layout_constraintEnd_toStartOf="@id/self"
+        app:layout_constraintBottom_toTopOf="@id/divorced"
+        app:layout_constraintEnd_toStartOf="@id/married"
 
         android:textColor="@color/black"
         android:textSize="16sp" />
 
     <Button
-        android:id="@+id/self"
+        android:id="@+id/married"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:layout_margin="8dp"
         android:padding="5dp"
-        android:text="Self-employed"
+        android:text="Married"
         android:textStyle="bold"
         android:backgroundTint="@color/white"
         android:elevation="32dp"
-        app:layout_constraintBottom_toTopOf="@id/other"
+        app:layout_constraintBottom_toTopOf="@id/widowd"
         app:layout_constraintEnd_toEndOf="parent"
 
         android:textColor="@color/black"
         android:textSize="16sp" />
 
     <Button
-        android:id="@+id/student"
+        android:id="@+id/divorced"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:layout_margin="8dp"
         android:padding="5dp"
-        android:text="Student"
+        android:text="Divorced"
         android:textStyle="bold"
         android:backgroundTint="@color/white"
         android:elevation="32dp"
         app:layout_constraintBottom_toTopOf="@id/bottom"
-        app:layout_constraintEnd_toStartOf="@id/other"
+        app:layout_constraintEnd_toStartOf="@id/widowd"
 
         android:textColor="@color/black"
         android:textSize="16sp" />
 
     <Button
-        android:id="@+id/other"
+        android:id="@+id/widowd"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:layout_margin="8dp"
         android:padding="5dp"
-        android:text="other"
+        android:text="widowed"
         android:textStyle="bold"
         android:backgroundTint="@color/white"
         android:elevation="32dp"
@@ -139,13 +141,14 @@
         android:layout_marginStart="16dp"
         android:layout_marginTop="12dp"
 
-        app:tint="@color/dark_green"
+        android:background="#f6f5f0"
         android:contentDescription="mic1"
 
 
         android:elevation="8dp"
 
         android:visibility="visible"
+        app:tint="@color/dark_green"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toBottomOf="@+id/text2"
         app:srcCompat="@drawable/ic_action_name" />

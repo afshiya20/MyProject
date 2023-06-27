@@ -1,35 +1,35 @@
 package com.example.myproject
 
-import android.app.DatePickerDialog
+import androidx.appcompat.app.AppCompatActivity
+import android.os.Bundle
+
+import android.annotation.SuppressLint
 import android.content.Context
 import android.content.Intent
 import android.media.AudioManager
 import android.media.MediaPlayer
-import android.os.Bundle
+import android.os.Build
+
 import android.speech.RecognizerIntent
 import android.view.LayoutInflater
-import android.view.View
 import android.widget.Button
-import android.widget.DatePicker
-import android.widget.TextView
 import android.widget.Toast
-import androidx.appcompat.app.AppCompatActivity
-import com.example.myproject.databinding.Layout2Binding
-import com.example.myproject.databinding.Layout3Binding
+import androidx.compose.ui.input.key.Key.Companion.I
+
+
+import com.example.myproject.databinding.ActivityEighthPgAddrBinding
+
 import com.google.firebase.database.DatabaseReference
 import com.google.firebase.database.FirebaseDatabase
 import java.io.IOException
-import java.time.Year
-import java.util.Calendar
+
 import java.util.Locale
 import java.util.Objects
 
-class thirdpg : AppCompatActivity() {
-    private lateinit var binding: Layout3Binding
-    private val REQUEST_CODE_SPEECH_INPUT = 1
-
-
+class Eighth_Pg_addr : AppCompatActivity() {
+    private lateinit var binding: ActivityEighthPgAddrBinding
     private lateinit var database : DatabaseReference
+    private val REQUEST_CODE_SPEECH_INPUT = 1
     private lateinit var btnPlay : Button
 
     var mediaPlayer : MediaPlayer? = null
@@ -37,15 +37,16 @@ class thirdpg : AppCompatActivity() {
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
-        binding = Layout3Binding.inflate(LayoutInflater.from(this))
-        setContentView(binding.root)
+        setContentView(R.layout.activity_eighth_pg_addr)
 
+        binding= ActivityEighthPgAddrBinding.inflate(LayoutInflater.from(this))
+        setContentView(binding.root)
 
         /*----------------------------Audio Play Button-------------------------------------------*/
 
-        btnPlay = findViewById(R.id.btnPlay)
 
 
+        this.btnPlay = findViewById(R.id.btnPlay)
 
         btnPlay.setOnClickListener {
             if(click==1)
@@ -68,63 +69,44 @@ class thirdpg : AppCompatActivity() {
 
 
         /*-------------------------------------------------------------------------------------*/
+        binding.button2.setOnClickListener{
 
-
-        binding.button3.setOnClickListener{
-            val intent3 = Intent(this, fourth_pg::class.java)
-            startActivity(intent3)
-
-            val dob :String? = binding.dateText.text.toString()
+            val work_addr = binding.nameText.text.toString()
+            updateDB(work_addr)
+            /* GEtting The value from Shared Preferences */
 
             val sharedPreferences = getSharedPreferences("MyPrefs", Context.MODE_PRIVATE)
-            val firstname = sharedPreferences.getString("firstname", "")
-
-            database = FirebaseDatabase.getInstance().getReference("Users")
+            val salary :String? = sharedPreferences.getString("salary", "")
 
 
-            if (firstname != null) {
-                val User = User(firstname = firstname, dob = dob) // Update the dob value
-                database.child(firstname).setValue(User).addOnSuccessListener {
-                    Toast.makeText(this,"Successfully Saved data",Toast.LENGTH_SHORT).show()
+            /*-------------------------------------------------*/
+
+            if (salary != null) {
+                if(salary.toInt() > 25000) {
+                    val intent3 = Intent(this, Eligible::class.java)
+                    startActivity(intent3)
+
+                } else {
+                    val intent3 = Intent(this, account_ready_pg::class.java)
+                    startActivity(intent3)
+                    Toast.makeText(this, "sry not eligible", Toast.LENGTH_SHORT).show()
                 }
-                    .addOnFailureListener {
-                        Toast.makeText(this,"Failed",Toast.LENGTH_SHORT).show()
-                    }
             }
-        }
-        val button = findViewById<Button>(R.id.dateBtn)
-        val text=findViewById<TextView>(R.id.dateText)
-        val cal = Calendar.getInstance()
-        val myYear =cal.get(Calendar.YEAR)
-        val myMonth=cal.get(Calendar.MONTH)
-        val day =cal.get(Calendar.DAY_OF_MONTH)
 
-        button.setOnClickListener{
-            val datePickerDialog =DatePickerDialog(this,DatePickerDialog.OnDateSetListener{view,year,month,dayOfMonth ->
-                text.text= "" +dayOfMonth + "/ " +(month+1) + "/ "+year
 
-            },myYear,myMonth,day)
-            datePickerDialog.show()
-        }
-        binding.voiceBtn2.setOnClickListener{
-            val intent= Intent(RecognizerIntent.ACTION_RECOGNIZE_SPEECH)
-            intent.putExtra(RecognizerIntent.EXTRA_LANGUAGE_MODEL, RecognizerIntent.LANGUAGE_MODEL_FREE_FORM)
-            intent.putExtra(RecognizerIntent.EXTRA_LANGUAGE, Locale.getDefault())
-            intent.putExtra(RecognizerIntent.EXTRA_PROMPT,"Speak to Text")
 
-            try{
-                startActivityForResult(intent,REQUEST_CODE_SPEECH_INPUT)
-            }catch (e:Exception){
-                Toast.makeText(this,""+e.message, Toast.LENGTH_LONG).show()
 
-            }
+
+
+
+
         }
 
-        binding.voiceBtn2.setOnClickListener{
+        binding.voiceBtn1.setOnClickListener{
             val intent= Intent(RecognizerIntent.ACTION_RECOGNIZE_SPEECH)
             intent.putExtra(RecognizerIntent.EXTRA_LANGUAGE_MODEL,RecognizerIntent.LANGUAGE_MODEL_FREE_FORM)
             intent.putExtra(RecognizerIntent.EXTRA_LANGUAGE, Locale.getDefault())
-            intent.putExtra(RecognizerIntent.EXTRA_PROMPT,"Say Your Name")
+            intent.putExtra(RecognizerIntent.EXTRA_PROMPT,"Let Us Know Your Salary")
 
             try{
                 startActivityForResult(intent,REQUEST_CODE_SPEECH_INPUT)
@@ -134,13 +116,15 @@ class thirdpg : AppCompatActivity() {
         }
 
     }
+
     override fun onActivityResult(requestCode: Int, resultCode: Int, data: Intent?) {
         super.onActivityResult(requestCode, resultCode, data)
         if(requestCode==REQUEST_CODE_SPEECH_INPUT){
             if (resultCode== RESULT_OK && data!=null){
                 val res : ArrayList<String> = data.getStringArrayListExtra(RecognizerIntent.EXTRA_RESULTS) as ArrayList<String>
-                binding.dateText.setText(Objects.requireNonNull(res)[0])
-                binding.button3.performClick()
+                binding.nameText.setText(Objects.requireNonNull(res)[0])
+
+                binding.button2.performClick()
             }
         }
     }
@@ -148,7 +132,7 @@ class thirdpg : AppCompatActivity() {
     /*-------------------------------Play Audio Function-------------------------------------*/
     private fun playAudio()
     {
-        val audioUrl = resources.openRawResourceFd(R.raw.dob_page)
+        val audioUrl = resources.openRawResourceFd(R.raw.work_addr)
 
         mediaPlayer = MediaPlayer()
 
@@ -164,7 +148,7 @@ class thirdpg : AppCompatActivity() {
             mediaPlayer!!.start()
             mediaPlayer!!.setOnCompletionListener {
 
-                binding.voiceBtn2.performClick()
+                binding.voiceBtn1.performClick()
             }
 
 
@@ -180,5 +164,23 @@ class thirdpg : AppCompatActivity() {
 
     /*---------------------------------------------------------------------------------------------*/
 
+    private fun updateDB(result : String)
+    {
+        val sharedPreferences = getSharedPreferences("MyPrefs", Context.MODE_PRIVATE)
+        val firstname = sharedPreferences.getString("firstname", "")
 
+        database = FirebaseDatabase.getInstance().getReference("Users/$firstname")
+
+
+        if (firstname != null) {
+
+            database.child("work_addr").setValue(result).addOnSuccessListener {
+                Toast.makeText(this,"Successfully Saved data",Toast.LENGTH_SHORT).show()
+            }
+                .addOnFailureListener {
+                    Toast.makeText(this,"Failed",Toast.LENGTH_SHORT).show()
+                }
+        }
+    }
 }
+

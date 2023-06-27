@@ -36,8 +36,10 @@
             android:layout_height="wrap_content"
             android:text="Play"
             android:textSize="16sp"
-            android:backgroundTint="@color/gray"
-            android:layout_marginStart="8dp" />
+            android:backgroundTint="@color/dark_green"
+            android:layout_marginStart="8dp"
+            android:elevation="32dp"
+            />
 
     </LinearLayout>
 
@@ -76,7 +78,7 @@
             android:layout_height="50dp"
             android:layout_gravity="center"
 
-            android:backgroundTint="#069e9f"
+            android:backgroundTint="@color/dark_green"
             android:ems="10"
             android:layout_margin="8dp"
 
@@ -100,7 +102,7 @@
         android:id="@+id/button3"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:backgroundTint="#069e9f"
+        android:backgroundTint="@color/dark_green"
         android:layout_marginStart="16dp"
         android:layout_marginEnd="16dp"
         android:layout_marginTop="8dp"
