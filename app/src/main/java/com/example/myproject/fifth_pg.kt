@@ -7,6 +7,9 @@ import android.media.MediaPlayer
 import androidx.appcompat.app.AppCompatActivity
 import android.os.Bundle
 import android.speech.RecognizerIntent
+import android.speech.tts.TextToSpeech
+import android.speech.tts.UtteranceProgressListener
+import android.util.Log
 import android.view.LayoutInflater
 import android.widget.Button
 import android.widget.Toast
@@ -19,13 +22,14 @@ import java.util.Locale
 import java.util.Objects
 
 
-class fifth_pg : AppCompatActivity() {
+class fifth_pg : AppCompatActivity(),TextToSpeech.OnInitListener {
 
     private lateinit var database : DatabaseReference
     private val REQUEST_CODE_SPEECH_INPUT = 1
 
 
     private lateinit var btnPlay : Button
+    private lateinit var textToSpeech: TextToSpeech
 
     private lateinit var bottom : Button
 
@@ -36,6 +40,25 @@ class fifth_pg : AppCompatActivity() {
         super.onCreate(savedInstanceState)
         binding = ActivityFifthPgBinding.inflate(LayoutInflater.from(this))
         setContentView(binding.root)
+        textToSpeech= TextToSpeech(this,this)
+        textToSpeech.setOnUtteranceProgressListener(object : UtteranceProgressListener() {
+            override fun onStart(utteranceId: String?) {
+                // Audio playback started
+            }
+
+            override fun onDone(utteranceId: String?) {
+                // Audio playback completed
+                // Start the new activity here
+                runOnUiThread {
+                    binding.button.performClick()
+                }
+                // finish() // Optional: Finish the current activity if needed
+            }
+
+            override fun onError(utteranceId: String?) {
+                // Error occurred during audio playback
+            }
+        })
 
         /*----------------------------Audio Play Button-------------------------------------------*/
 
@@ -47,14 +70,14 @@ class fifth_pg : AppCompatActivity() {
         btnPlay.setOnClickListener {
             if(click==1)
             {
-                playAudio()
+                playTextToSpeech("You're almost there.Provide your PAN number.Ensure correct number is shared.You won't be able to change later")
                 btnPlay.setBackgroundColor(resources.getColor(R.color.light_gray))
                 click=0
             }
             else
             {
                 click=1
-                mediaPlayer!!.stop()
+                textToSpeech.stop()
                 btnPlay.setBackgroundColor(resources.getColor(R.color.gray))
             }
         }
@@ -95,7 +118,7 @@ class fifth_pg : AppCompatActivity() {
     }
 
     /*-------------------------------Play Audio Function-------------------------------------*/
-    private fun playAudio()
+       /*private fun playAudio()
     {
         val audioUrl = resources.openRawResourceFd(R.raw.pan_page_)
 
@@ -125,6 +148,31 @@ class fifth_pg : AppCompatActivity() {
         }
 
         Toast.makeText(this,"Audio started Playing",Toast.LENGTH_SHORT).show()
+    }
+*/
+    override fun onInit(status: Int) {
+        if (status==TextToSpeech.SUCCESS){
+            val result=textToSpeech.setLanguage(Locale.US)
+
+            if (result==TextToSpeech.LANG_MISSING_DATA || result==TextToSpeech.LANG_NOT_SUPPORTED){
+                Log.e("TTS","The Language not supported!")
+
+            }else{
+                playTextToSpeech("You're almost there.Provide your PAN number.Ensure correct number is shared.You won't be able to change later")
+            }
+
+        }
+
+    }
+    private fun playTextToSpeech(text:String){
+        textToSpeech.speak(text,TextToSpeech.QUEUE_FLUSH,null,"")
+
+
+    }
+    override fun onDestroy() {
+        super.onDestroy()
+        textToSpeech.stop()
+        textToSpeech.shutdown()
     }
 
     override fun onActivityResult(requestCode: Int, resultCode: Int, data: Intent?) {

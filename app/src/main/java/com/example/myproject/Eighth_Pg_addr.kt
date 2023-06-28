@@ -11,6 +11,9 @@ import android.media.MediaPlayer
 import android.os.Build
 
 import android.speech.RecognizerIntent
+import android.speech.tts.TextToSpeech
+import android.speech.tts.UtteranceProgressListener
+import android.util.Log
 import android.view.LayoutInflater
 import android.widget.Button
 import android.widget.Toast
@@ -26,11 +29,12 @@ import java.io.IOException
 import java.util.Locale
 import java.util.Objects
 
-class Eighth_Pg_addr : AppCompatActivity() {
+class Eighth_Pg_addr : AppCompatActivity(), TextToSpeech.OnInitListener {
     private lateinit var binding: ActivityEighthPgAddrBinding
     private lateinit var database : DatabaseReference
     private val REQUEST_CODE_SPEECH_INPUT = 1
     private lateinit var btnPlay : Button
+    private lateinit var textToSpeech:TextToSpeech
 
     var mediaPlayer : MediaPlayer? = null
     var click=1
@@ -41,6 +45,19 @@ class Eighth_Pg_addr : AppCompatActivity() {
 
         binding= ActivityEighthPgAddrBinding.inflate(LayoutInflater.from(this))
         setContentView(binding.root)
+        textToSpeech= TextToSpeech(this,this)
+        textToSpeech.setOnUtteranceProgressListener(object : UtteranceProgressListener() {
+            override fun onStart(utteranceId: String?) {
+            }
+            override fun onDone(utteranceId: String?) {
+                runOnUiThread {
+                    binding.voiceBtn1.performClick()
+                }
+
+            }
+            override fun onError(utteranceId: String?) {
+            }
+        })
 
         /*----------------------------Audio Play Button-------------------------------------------*/
 
@@ -51,14 +68,14 @@ class Eighth_Pg_addr : AppCompatActivity() {
         btnPlay.setOnClickListener {
             if(click==1)
             {
-                playAudio()
+                playTextToSpeech("Doing great!Where do you work?")
                 btnPlay.setBackgroundColor(resources.getColor(R.color.light_gray))
                 click=0
             }
             else
             {
                 click=1
-                mediaPlayer!!.stop()
+                textToSpeech.stop()
                 btnPlay.setBackgroundColor(resources.getColor(R.color.gray))
             }
         }
@@ -130,7 +147,7 @@ class Eighth_Pg_addr : AppCompatActivity() {
     }
 
     /*-------------------------------Play Audio Function-------------------------------------*/
-    private fun playAudio()
+  /*  private fun playAudio()
     {
         val audioUrl = resources.openRawResourceFd(R.raw.work_addr)
 
@@ -162,6 +179,33 @@ class Eighth_Pg_addr : AppCompatActivity() {
         Toast.makeText(this,"Audio started Playing",Toast.LENGTH_SHORT).show()
     }
 
+   */
+
+
+    override fun onInit(status: Int) {
+        if (status==TextToSpeech.SUCCESS){
+            val result=textToSpeech.setLanguage(Locale.US)
+
+            if (result==TextToSpeech.LANG_MISSING_DATA || result==TextToSpeech.LANG_NOT_SUPPORTED){
+                Log.e("TTS","The Language not supported!")
+
+            }else{
+                playTextToSpeech("Doing great!Where do you work?")
+            }
+
+        }
+
+    }
+    private fun playTextToSpeech(text:String){
+        textToSpeech.speak(text,TextToSpeech.QUEUE_FLUSH,null,"")
+
+
+    }
+    override fun onDestroy() {
+        super.onDestroy()
+        textToSpeech.stop()
+        textToSpeech.shutdown()
+    }
     /*---------------------------------------------------------------------------------------------*/
 
     private fun updateDB(result : String)

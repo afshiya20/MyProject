@@ -8,6 +8,10 @@ import android.media.MediaPlayer
 import android.os.Build
 import android.os.Bundle
 import android.speech.RecognizerIntent
+import android.speech.tts.TextToSpeech
+import android.speech.tts.TextToSpeech.OnInitListener
+import android.speech.tts.UtteranceProgressListener
+import android.util.Log
 import android.view.LayoutInflater
 import android.widget.Button
 import android.widget.Toast
@@ -16,6 +20,7 @@ import com.example.myproject.databinding.ActivityMainBinding
 import com.example.myproject.databinding.Layout2Binding
 import com.google.firebase.database.DatabaseReference
 import com.google.firebase.database.FirebaseDatabase
+import org.w3c.dom.Text
 import java.io.IOException
 
 import java.util.Locale
@@ -24,49 +29,65 @@ import java.util.Objects
 
 
 
-class secondpg : AppCompatActivity() {
+class secondpg : AppCompatActivity(),OnInitListener{
     private lateinit var binding: Layout2Binding
     private lateinit var database : DatabaseReference
     private val REQUEST_CODE_SPEECH_INPUT = 1
     private lateinit var btnPlay : Button
-
-    var mediaPlayer : MediaPlayer? = null
+    private lateinit var textToSpeech:TextToSpeech
     var click=1
-
-
+// var mediaPlayer : MediaPlayer? = null
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         binding= Layout2Binding.inflate(LayoutInflater.from(this))
         setContentView(binding.root)
 
+
+        textToSpeech= TextToSpeech(this,this)
+
+        textToSpeech.setOnUtteranceProgressListener(object : UtteranceProgressListener() {
+
+            override fun onStart(utteranceId: String?) {
+                // Audio playback started
+            }
+
+            override fun onDone(utteranceId: String?) {
+                // Audio playback completed
+                runOnUiThread {
+                    binding.voiceBtn1.performClick()
+                }
+            }
+
+            override fun onError(utteranceId: String?) {
+                // Error occurred during audio playback
+            }
+        })
+
+
         /*----------------------------Audio Play Button-------------------------------------------*/
 
-        btnPlay = findViewById(R.id.btnPlay)
-
-
-
+       btnPlay = findViewById(R.id.btnPlay)
         btnPlay.setOnClickListener {
+
             if(click==1)
             {
-                playAudio()
+                playTextToSpeech("Let's get started.Could you tell me your name?Ensure correct name is being provided.You won't be able to change it later")
                 btnPlay.setBackgroundColor(resources.getColor(R.color.light_gray))
                 click=0
             }
             else
             {
                 click=1
-                mediaPlayer!!.stop()
+                textToSpeech.stop()
                 btnPlay.setBackgroundColor(resources.getColor(R.color.gray))
             }
         }
-
         btnPlay.performClick()
 
 
 
-
-    /*-------------------------------------------------------------------------------------*/
+        /*-------------------------------------------------------------------------------------*/
         binding.button2.setOnClickListener{
             val firstname = binding.nameText.text.toString()
             database = FirebaseDatabase.getInstance().getReference("Users")
@@ -120,8 +141,33 @@ class secondpg : AppCompatActivity() {
         }
     }
 
-    /*-------------------------------Play Audio Function-------------------------------------*/
-    private fun playAudio()
+    override fun onInit(status: Int) {
+        if (status==TextToSpeech.SUCCESS){
+            val result=textToSpeech.setLanguage(Locale.US)
+
+            if (result==TextToSpeech.LANG_MISSING_DATA || result==TextToSpeech.LANG_NOT_SUPPORTED){
+                Log.e("TTS","The Language not supported!")
+
+            }else{
+                playTextToSpeech("Let's get started.Could you tell me your name?Ensure correct name is being provided.You won't be able to change it later")
+            }
+
+        }
+
+    }
+    private fun playTextToSpeech(text:String){
+        textToSpeech.speak(text,TextToSpeech.QUEUE_FLUSH,null,"")
+
+
+    }
+    override fun onDestroy() {
+        super.onDestroy()
+        textToSpeech.stop()
+        textToSpeech.shutdown()
+    }
+
+/*-------------------------------Play Audio Function-------------------------------------*/
+   /* private fun playAudio()
     {
         val audioUrl = resources.openRawResourceFd(R.raw.name_page)
 
@@ -154,5 +200,5 @@ class secondpg : AppCompatActivity() {
     }
 
     /*---------------------------------------------------------------------------------------------*/
-
+*/
 }

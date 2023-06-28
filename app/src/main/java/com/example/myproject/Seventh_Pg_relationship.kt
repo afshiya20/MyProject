@@ -8,6 +8,9 @@ import android.content.Intent
 import android.media.AudioManager
 import android.media.MediaPlayer
 import android.speech.RecognizerIntent
+import android.speech.tts.TextToSpeech
+import android.speech.tts.UtteranceProgressListener
+import android.util.Log
 import android.view.LayoutInflater
 import android.widget.Button
 import android.widget.Toast
@@ -18,13 +21,14 @@ import com.google.firebase.database.FirebaseDatabase
 import java.io.IOException
 import java.util.Locale
 
-class Seventh_Pg_relationship : AppCompatActivity() {
+class Seventh_Pg_relationship : AppCompatActivity(), TextToSpeech.OnInitListener {
 
 
     private lateinit var binding:ActivitySeventhPgRelationshipBinding
     private lateinit var database : DatabaseReference
     private val REQUEST_CODE_SPEECH_INPUT = 1
     private lateinit var btnPlay : Button
+    private lateinit var textToSpeech:TextToSpeech
     var mediaPlayer : MediaPlayer? = null
     var click=1
     private lateinit var result : String
@@ -34,6 +38,27 @@ class Seventh_Pg_relationship : AppCompatActivity() {
         super.onCreate(savedInstanceState)
         setContentView(R.layout.activity_seventh_pg_relationship)
         binding = ActivitySeventhPgRelationshipBinding.inflate(LayoutInflater.from(this))
+        textToSpeech= TextToSpeech(this,this)
+        textToSpeech.setOnUtteranceProgressListener(object : UtteranceProgressListener() {
+            override fun onStart(utteranceId: String?) {
+                // Audio playback started
+            }
+
+            override fun onDone(utteranceId: String?) {
+                // Audio playback completed
+                // Start the new activity here
+                runOnUiThread {
+                    binding.voiceBtn1.performClick()
+                }
+                // finish() // Optional: Finish the current activity if needed
+            }
+
+            override fun onError(utteranceId: String?) {
+                // Error occurred during audio playback
+            }
+        })
+
+
 
         /*----------------------------Audio Play Button-------------------------------------------*/
 
@@ -42,14 +67,14 @@ class Seventh_Pg_relationship : AppCompatActivity() {
         btnPlay.setOnClickListener {
             if(click==1)
             {
-                playAudio()
+                playTextToSpeech("Excited to know more about you!What's your relationship status?")
                 btnPlay.setBackgroundColor(resources.getColor(R.color.light_gray))
                 click=0
             }
             else
             {
                 click=1
-                mediaPlayer!!.stop()
+                textToSpeech.stop()
                 btnPlay.setBackgroundColor(resources.getColor(R.color.gray))
             }
         }
@@ -119,7 +144,7 @@ class Seventh_Pg_relationship : AppCompatActivity() {
         }
     }
     /*-------------------------------Play Audio Function-------------------------------------*/
-    private fun playAudio()
+   /* private fun playAudio()
     {
         val audioUrl = resources.openRawResourceFd(R.raw.rel_status)
 
@@ -150,7 +175,32 @@ class Seventh_Pg_relationship : AppCompatActivity() {
         Toast.makeText(this,"Audio started Playing",Toast.LENGTH_SHORT).show()
     }
 
+*/
 
+    override fun onInit(status: Int) {
+        if (status==TextToSpeech.SUCCESS){
+            val result=textToSpeech.setLanguage(Locale.US)
+
+            if (result==TextToSpeech.LANG_MISSING_DATA || result==TextToSpeech.LANG_NOT_SUPPORTED){
+                Log.e("TTS","The Language not supported!")
+
+            }else{
+                playTextToSpeech("Excited to know more about you!What's your relationship status?")
+            }
+
+        }
+
+    }
+    private fun playTextToSpeech(text:String){
+        textToSpeech.speak(text,TextToSpeech.QUEUE_FLUSH,null,"")
+
+
+    }
+    override fun onDestroy() {
+        super.onDestroy()
+        textToSpeech.stop()
+        textToSpeech.shutdown()
+    }
     /*---------------------------------------------------------------------------------------------*/
 
     override fun onActivityResult(requestCode: Int, resultCode: Int, data: Intent?) {

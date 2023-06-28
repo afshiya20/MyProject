@@ -7,6 +7,9 @@ import android.media.AudioManager
 import android.media.MediaPlayer
 import android.os.Bundle
 import android.speech.RecognizerIntent
+import android.speech.tts.TextToSpeech
+import android.speech.tts.UtteranceProgressListener
+import android.util.Log
 import android.view.LayoutInflater
 import android.view.View
 import android.widget.Button
@@ -24,51 +27,62 @@ import java.util.Calendar
 import java.util.Locale
 import java.util.Objects
 
-class thirdpg : AppCompatActivity() {
+class thirdpg : AppCompatActivity() , TextToSpeech.OnInitListener {
     private lateinit var binding: Layout3Binding
     private val REQUEST_CODE_SPEECH_INPUT = 1
-
-
     private lateinit var database : DatabaseReference
     private lateinit var btnPlay : Button
-
-    var mediaPlayer : MediaPlayer? = null
+    private lateinit var textToSpeech: TextToSpeech
     var click=1
+  //  var mediaPlayer : MediaPlayer? = null
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         binding = Layout3Binding.inflate(LayoutInflater.from(this))
         setContentView(binding.root)
 
+        textToSpeech= TextToSpeech(this,this)
+
+        textToSpeech.setOnUtteranceProgressListener(object : UtteranceProgressListener() {
+            override fun onStart(utteranceId: String?) {
+                // Audio playback started
+            }
+
+            override fun onDone(utteranceId: String?) {
+                // Audio playback completed
+                runOnUiThread {
+                    binding.voiceBtn2.performClick()
+                }
+
+            }
+
+            override fun onError(utteranceId: String?) {
+                // Error occurred during audio playback
+            }
+        })
+
+
 
         /*----------------------------Audio Play Button-------------------------------------------*/
 
         btnPlay = findViewById(R.id.btnPlay)
-
-
-
         btnPlay.setOnClickListener {
             if(click==1)
             {
-                playAudio()
+                playTextToSpeech("Great!What's your date of birth?")
                 btnPlay.setBackgroundColor(resources.getColor(R.color.light_gray))
                 click=0
             }
             else
             {
                 click=1
-                mediaPlayer!!.stop()
+                textToSpeech.stop()
                 btnPlay.setBackgroundColor(resources.getColor(R.color.gray))
             }
         }
-
         btnPlay.performClick()
 
-
-
-
         /*-------------------------------------------------------------------------------------*/
-
 
         binding.button3.setOnClickListener{
             val intent3 = Intent(this, fourth_pg::class.java)
@@ -145,8 +159,33 @@ class thirdpg : AppCompatActivity() {
         }
     }
 
+    override fun onInit(status: Int) {
+        if (status==TextToSpeech.SUCCESS){
+            val result=textToSpeech.setLanguage(Locale.US)
+
+            if (result==TextToSpeech.LANG_MISSING_DATA || result==TextToSpeech.LANG_NOT_SUPPORTED){
+                Log.e("TTS","The Language not supported!")
+
+            }else{
+                playTextToSpeech("Great!What's your date of birth?")
+            }
+
+        }
+
+    }
+    private fun playTextToSpeech(text:String){
+        textToSpeech.speak(text,TextToSpeech.QUEUE_FLUSH,null,"")
+
+
+    }
+    override fun onDestroy() {
+        super.onDestroy()
+        textToSpeech.stop()
+        textToSpeech.shutdown()
+    }
+
     /*-------------------------------Play Audio Function-------------------------------------*/
-    private fun playAudio()
+ /*   private fun playAudio()
     {
         val audioUrl = resources.openRawResourceFd(R.raw.dob_page)
 
@@ -180,5 +219,5 @@ class thirdpg : AppCompatActivity() {
 
     /*---------------------------------------------------------------------------------------------*/
 
-
+*/
 }

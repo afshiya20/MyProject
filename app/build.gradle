@@ -68,6 +68,12 @@ dependencies {
     implementation 'androidx.compose.ui:ui-graphics'
     implementation 'androidx.compose.ui:ui-tooling-preview'
     implementation 'androidx.compose.material3:material3'
+
+        // Other dependencies...
+    //implementation 'com.google.android.gms:play-services-tasks:19.0.1'
+   // implementation 'com.google.android.gms:play-services-mlkit-text-recognition:17.0.0'
+
+
     implementation 'com.google.firebase:firebase-crashlytics:18.3.2'
     implementation 'com.google.firebase:firebase-analytics:21.2.0'
     implementation 'com.google.firebase:firebase-database-ktx:20.0.4'
